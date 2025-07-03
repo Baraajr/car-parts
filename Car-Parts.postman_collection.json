@@ -1,0 +1,1825 @@
+{
+  "info": {
+    "_postman_id": "23b2afc9-c035-4c28-9137-7cf91683fa9f",
+    "name": "Car-Parts",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "36642448"
+  },
+  "item": [
+    {
+      "name": "produtcs",
+      "item": [
+        {
+          "name": "get all products",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/products?fields=title,description,price&sort=price",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "products"],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "title,description,price"
+                },
+                {
+                  "key": "sort",
+                  "value": "price"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get a specified product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/products/66cc5aa7be03da97c6b07583",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "products", "66cc5aa7be03da97c6b07583"],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "title,reviews",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create product",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"sasadasdd\",\r\n    \"description\":\"asdasdsdsfdsfsdfdsfdsfdasd\",\r\n    \"quantity\":\"5\",\r\n    \"price\":500,\r\n    \"imageCover\":\"url\",\r\n    \"category\":\"6856fede07f8a77bd9987024\",\r\n    \"images\":[\"asdasd\"]\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/products",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update a product",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Updated Product\",\r\n              \"price\": 300,\r\n              \"description\":\"Updated product description\",\r\n              \"color\": \"Updated Color\",\r\n              \"quantity\": 10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/products/6856ffb3b61427aa25ce5d90",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "products", "6856ffb3b61427aa25ce5d90"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete a product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/products/66cb4b82270ad6a57ab6bd2e",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "products", "66cb4b82270ad6a57ab6bd2e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "search",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"text\":\"mens\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/products/search",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "products", "search"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update a product stock number",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"number\":200\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/products/66c486d0f4e7513e7799dd9b/stock",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "products", "66c486d0f4e7513e7799dd9b", "stock"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "get all categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/categories",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "categories"],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "c",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get specific category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/categories/66c96ef4571166c99572efed",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "categories", "66c96ef4571166c99572efed"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"asdsad\",\r\n    \"image\":\"url\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/categories",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update category",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "cputers and electronics",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/C:/Users/ahmed/Pictures/Screenshots/Screenshot (9).png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/categories/66c96ef4571166c99572efed",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "categories", "66c96ef4571166c99572efed"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/categories/66c97000c24a3644b0df5e55",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "categories", "66c97000c24a3644b0df5e55"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Subcategories",
+      "item": [
+        {
+          "name": "get all subcategories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/subcategories/",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "subcategories", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get specific category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/subcategories/66caf24ff78e661238c7fc2e",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "subcategories", "66caf24ff78e661238c7fc2e"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create subcategory",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"DELL\",\r\n    \"category\":\"6856fede07f8a77bd9987024\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/subcategories/",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "subcategories", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update subcategory",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"HP\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/subcategories/66caf0731e72dcdb25f2f10f",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "subcategories", "66caf0731e72dcdb25f2f10f"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/subcategories/66caf0731e72dcdb25f2f10f",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "subcategories", "66caf0731e72dcdb25f2f10f"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "get all users",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "Bearer ",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}api/v1/users",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get specified user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/users/66c7339a836dc75e06318f44",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "users", "66c7339a836dc75e06318f44"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update user role",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"role\":\"admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/users/updateRole/66c72e40da50773e7f50f826",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "users", "updateRole", "66c72e40da50773e7f50f826"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get current user data",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/users/getMe",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "users", "getMe"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update logged user data",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "ahmed Baraa",
+                  "type": "text"
+                },
+                {
+                  "key": "profileImg",
+                  "type": "file",
+                  "src": "/C:/Users/ahmed/Downloads/profilePic.jpg"
+                },
+                {
+                  "key": "phone",
+                  "value": "01032650872",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/users/updateMe",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "users", "updateMe"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update logged user password",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"currentPassword\":\"test1234\",\r\n\"newPassword\":\"test1234\",\r\n\"passwordConfirm\":\"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/users/changeMyPassword",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "users", "changeMyPassword"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete logged user",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"currentPassword\":\"test1234\",\r\n\"newPassword\":\"test1234\",\r\n\"passwordConfirm\":\"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/users/deleteMe",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "users", "deleteMe"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "signup",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"JWT\", pm.response.json().token);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"admin \",\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"test1234\",\r\n    \"passwordConfirm\":\"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/auth/signup",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "auth", "signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"JWT\", pm.response.json().token);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"test1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/auth/login",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"JWT\", pm.response.json().token);"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/auth/logout",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "auth", "logout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "forgot password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"JWT\", pm.response.json().token);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"ahmed@gmail.com\"\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/auth/forgotpassword",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "auth", "forgotpassword"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "verify password reset code",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"JWT\", pm.response.json().token);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n     \"email\":\"ahmed@gmail.com\",\r\n    \"resetCode\":\"474375\"\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/auth/verifyResetCode",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "auth", "verifyResetCode"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "reset password after verify the resetCode",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"JWT\", pm.response.json().token);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"ahmed@gmail.com\",\r\n    \"newPassword\":\"test1234\",\r\n    \"confirmPassword\":\"test1234\"\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/auth/resetPassword",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "auth", "resetPassword"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Category/subs",
+      "item": [
+        {
+          "name": "get subcategories for specific category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/categories/66c96ef4571166c99572efed/subcategories",
+              "host": ["{{URL}}api"],
+              "path": [
+                "v1",
+                "categories",
+                "66c96ef4571166c99572efed",
+                "subcategories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create subcategory oncategory",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Android\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/categories/66c96ef4571166c99572efed/subcategories/",
+              "host": ["{{URL}}api"],
+              "path": [
+                "v1",
+                "categories",
+                "66c96ef4571166c99572efed",
+                "subcategories",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Brands",
+      "item": [
+        {
+          "name": "get all brands",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/brands",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "brands"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get brand",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/brands/66cb0b1adc1c3e44bb283146",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "brands", "66cb0b1adc1c3e44bb283146"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create brand",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"hp\",\r\n    \"image\":\"https://car-parts-bucket-123.s3.eu-north-1.amazonaws.com/6856d0d595a4e74d76e2bf5b/fb7e6baf-36e9-4eb3-8e91-db067ba7aa73.jpeg\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/brands/",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "brands", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update brand",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"image\":\"url\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/brands/66cb0b1adc1c3e44bb283146",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "brands", "66cb0b1adc1c3e44bb283146"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete brand",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/brands/66cb0b1adc1c3e44bb283146",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "brands", "66cb0b1adc1c3e44bb283146"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "get all reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/reviews",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "reviews"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get review",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/reviews/66d2f9705a1ae600802601b3",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "reviews", "66d2f9705a1ae600802601b3"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"ahmed : nice product\",\r\n    \"ratings\":4.5,\r\n    \"product\":\"66cc5aa7be03da97c6b0757d\",\r\n    \"user\":\"66d22581312bf291366c5b16\"\r\n}\r\n    \r\n\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/reviews/",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "reviews", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"ratings\":3.5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/reviews/66d5bf8625c3e4b7375b8c00",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "reviews", "66d5bf8625c3e4b7375b8c00"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/reviews/66d5c8de112becfc954d4b35",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "reviews", "66d5c8de112becfc954d4b35"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "products/reviews",
+      "item": [
+        {
+          "name": "get all reviews on specific product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/products/66cc5aa7be03da97c6b0757d/reviews/",
+              "host": ["{{URL}}api"],
+              "path": [
+                "v1",
+                "products",
+                "66cc5aa7be03da97c6b0757d",
+                "reviews",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "specific review on specific product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/products/66cc5aa7be03da97c6b0757d/reviews/66d477b82810c95253c4cadf",
+              "host": ["{{URL}}api"],
+              "path": [
+                "v1",
+                "products",
+                "66cc5aa7be03da97c6b0757d",
+                "reviews",
+                "66d477b82810c95253c4cadf"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create review on specific product Copy",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\" mido amazing\",\r\n    \"ratings\":1.5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/products/66cc5aa7be03da97c6b0757d/reviews/",
+              "host": ["{{URL}}api"],
+              "path": [
+                "v1",
+                "products",
+                "66cc5aa7be03da97c6b0757d",
+                "reviews",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "wishlist",
+      "item": [
+        {
+          "name": "add product to wishlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":\"66cc5aa7be03da97c6b07580\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/wishlist",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "wishlist"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get user wishlist",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":\"66cc5aa7be03da97c6b07583\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/wishlist",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "wishlist"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "remove product from wishlist",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/wishlist/66cc5aa7be03da97c6b07583",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "wishlist", "66cc5aa7be03da97c6b07583"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Addresses",
+      "item": [
+        {
+          "name": "add address to user addresses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"alias\": \"work\",\r\n    \"details\": \"Egypt, menofiya, menouf, tamalay\",\r\n    \"phone\": \"01032650872\",\r\n    \"city\": \"menouf\",\r\n    \"postalCode\": \"31734\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/addresses",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "addresses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get user addresses",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/addresses",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "addresses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "remove address from addresses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/addresses/66d6d435c7c1ddd975a9b0e6",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "addresses", "66d6d435c7c1ddd975a9b0e6"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "coupons",
+      "item": [
+        {
+          "name": "create coupon",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"HAPPY_NEW_YEAR\",\r\n    \"expire\":\"03/25/2025\",\r\n    \"discount\":10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/coupons",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "coupons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all coupons",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/coupons",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "coupons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get coupon",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/coupons/66d6e5f68d7f22ffcadfedb9",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "coupons", "66d6e5f68d7f22ffcadfedb9"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update coupon",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"HAPPY_MOTHERS_DAY\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/coupons/66d6e5f68d7f22ffcadfedb9",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "coupons", "66d6e5f68d7f22ffcadfedb9"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete coupon",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/coupons/66d6e5f68d7f22ffcadfedb9",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "coupons", "66d6e5f68d7f22ffcadfedb9"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "cart",
+      "item": [
+        {
+          "name": "get logged user cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/cart",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "cart"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add product to user cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"productId\":\"66cc5aa7be03da97c6b0757f\",\r\n    \"color\":\"blue\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/cart/",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "cart", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "apply coupon on cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"coupon\":\"HAPPY_NEW_YEAR\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/cart/applyCoupon",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "cart", "applyCoupon"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update cart item quantity",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quantity\": 3\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/cart/66d71f4dff950a57d9bef4d5",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "cart", "66d71f4dff950a57d9bef4d5"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "remove product from cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"color\":\"blue\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/cart/66d71b4f2ebde7e75bafb12b",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "cart", "66d71b4f2ebde7e75bafb12b"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "clear user cart",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"color\":\"blue\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/cart/",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "cart", ""]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "item": [
+        {
+          "name": "create cash order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"shippingAddress\":{\r\n     \"details\": \"tamalay, menouf, menoufiya\",\r\n      \"phone\": \"01032650872\",\r\n      \"city\": \"menouf\",\r\n      \"postalCode\": \"33765\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/orders/66d81d42e8abe46ff7361f8c",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "orders", "66d81d42e8abe46ff7361f8c"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/orders/66d819f09b8922158cefb3e6",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "orders", "66d819f09b8922158cefb3e6"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all orders",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/orders/",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "orders", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "change paid fields",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/orders/66d819f09b8922158cefb3e6/pay",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "orders", "66d819f09b8922158cefb3e6", "pay"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "change deliver fields",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}api/v1/orders/66d819f09b8922158cefb3e6/deliver",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "orders", "66d819f09b8922158cefb3e6", "deliver"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get checkout-session",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer sk_test_5sk_test_51PvGTwLTozjnFlAKCEnpT0cKOpsBwOwlXDhHxw2HS39rdZljRULDFwNmq7zcZbTV8vkIwuxk5bMvtBwt3FFXu3Sv00LT7lq0N8",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"shippingAddress\":{\r\n     \"details\": \"tamalay, menouf, menoufiya\",\r\n      \"phone\": \"01032650872\",\r\n      \"city\": \"menouf\",\r\n      \"postalCode\": \"33765\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/orders/checkout-session/66f6c843c37077dd1725c9f5",
+              "host": ["{{URL}}api"],
+              "path": [
+                "v1",
+                "orders",
+                "checkout-session",
+                "66f6c843c37077dd1725c9f5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "upload",
+      "item": [
+        {
+          "name": "get presignedurl",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}api/v1/upload?type=brand",
+              "host": ["{{URL}}api"],
+              "path": ["v1", "upload"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "brand"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

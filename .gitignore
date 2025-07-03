@@ -1,0 +1,7 @@
+.vscode/
+node_modules/
+.env
+.vercel
+vercel.json
+/uploads
+coverage/
