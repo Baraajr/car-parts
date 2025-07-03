@@ -13,6 +13,8 @@ const {
   updateCategory,
   getCategory,
   deleteCategory,
+  uploadCategoryImage,
+  resizeImage,
 } = require('../controllers/categoryControllers');
 
 const router = express.Router();
@@ -29,6 +31,8 @@ router
   .post(
     authControllers.protect,
     authControllers.restrictTo('admin', 'manager'),
+    uploadCategoryImage,
+    resizeImage,
     createCategoryValidator,
     createCategory,
   );
@@ -39,6 +43,8 @@ router
   .patch(
     authControllers.protect,
     authControllers.restrictTo('admin', 'manager'),
+    uploadCategoryImage,
+    resizeImage,
     updateCategoryValidator,
     updateCategory,
   )

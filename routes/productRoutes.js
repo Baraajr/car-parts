@@ -27,6 +27,8 @@ router
     authControllers.protect,
     authControllers.restrictTo('admin', 'manager'),
     productControllers.setBodySlug,
+    productControllers.uploadProductImages,
+    productControllers.resizeImages,
     createProductValidator,
     productControllers.createProduct,
   );
@@ -37,6 +39,8 @@ router
   .patch(
     authControllers.protect,
     authControllers.restrictTo('admin', 'manager'),
+    productControllers.uploadProductImages,
+    productControllers.resizeImages,
     updateProductValidator,
     productControllers.updateProduct,
   )

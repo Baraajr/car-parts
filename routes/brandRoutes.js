@@ -13,6 +13,8 @@ const {
   updateBrand,
   getBrand,
   deleteBrand,
+  uploadBrandImage,
+  resizeImage,
 } = require('../controllers/brandControllers');
 
 const router = express.Router();
@@ -23,6 +25,8 @@ router
   .post(
     authControllers.protect,
     authControllers.restrictTo('admin', 'manager'),
+    uploadBrandImage,
+    resizeImage,
     createBrandValidator,
     createBrand,
   );
@@ -33,6 +37,8 @@ router
   .patch(
     authControllers.protect,
     authControllers.restrictTo('admin', 'manager'),
+    uploadBrandImage,
+    resizeImage,
     updateBrandValidator,
     updateBrand,
   )

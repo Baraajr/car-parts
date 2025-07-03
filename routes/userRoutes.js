@@ -22,6 +22,8 @@ router.get(
 
 router.patch(
   '/updateMe',
+  userControllers.uploadUserPhoto,
+  userControllers.resizeUserPhoto,
   updateLoggedUserValidator,
   userControllers.updateLoggedUserData,
 );
