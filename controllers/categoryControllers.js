@@ -19,13 +19,8 @@ exports.uploadCategoryImage = upload.single('image');
 exports.resizeImage = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
-  const buffer = await sharp(req.file.buffer)
-    .resize(1200, 800)
-    .jpeg({ quality: 90 })
-    .toBuffer();
-
   // Convert the buffer to a base64 string
-  const base64Image = `data:${req.file.mimetype};base64,${buffer.toString('base64')}`;
+  const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
 
   // Upload the base64 image directly to Cloudinary
   const result = await cloudinary.uploader.upload(base64Image, {
