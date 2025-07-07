@@ -1,4 +1,5 @@
 // const slugify = require('slugify');
+const sharp = require('sharp');
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
@@ -22,21 +23,31 @@ exports.uploadUserPhoto = upload.single('profileImg');
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
-  // Convert the buffer to a base64 string
-  const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+  console.log('Original file received:', req.file.originalname);
 
-  // Upload the base64 image directly to Cloudinary
-  const result = await cloudinary.uploader.upload(base64Image, {
-    folder: 'users',
-    public_id: `user-${req.user.id}-${Date.now()}`,
-    format: 'jpg',
-  });
+  // Resize and convert to JPEG
+  const resizedBuffer = await sharp(req.file.buffer)
+    .resize(500, 500)
+    .jpeg({ quality: 90 })
+    .toBuffer();
 
-  req.body.profileImg = result.secure_url; // Cloudinary URL
+  // Convert buffer to base64 image string
+  const base64Image = `data:image/jpeg;base64,${resizedBuffer.toString('base64')}`;
 
-  console.log(`Image uploaded to Cloudinary, URL: ${result.secure_url}`);
+  try {
+    const result = await cloudinary.uploader.upload(base64Image, {
+      folder: 'users',
+      public_id: `user-${req.user.id}-${Date.now()}`,
+    });
 
-  next();
+    console.log('Image uploaded to Cloudinary:', result.secure_url);
+
+    req.body.profileImg = result.secure_url;
+    next();
+  } catch (err) {
+    console.error('Cloudinary upload failed:', err);
+    return next(new AppError('Failed to upload image', 500));
+  }
 });
 
 // only admin will use these

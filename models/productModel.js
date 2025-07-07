@@ -71,6 +71,11 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+
+    specifications: {
+      type: Map,
+      of: String, // or 'Schema.Types.Mixed' if values vary in type
+    },
   },
   {
     timestamps: true,
@@ -80,10 +85,10 @@ const productSchema = new mongoose.Schema(
 );
 
 // populate the category field
-productSchema.pre(/^find/, function (next) {
-  this.populate({ path: 'category', select: 'name' });
-  next();
-});
+// productSchema.pre(/^find/, function (next) {
+//   this.populate({ path: 'category', select: 'name' });
+//   next();
+// });
 
 // virtual populate reviews
 productSchema.virtual('reviews', {

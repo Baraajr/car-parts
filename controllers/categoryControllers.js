@@ -1,5 +1,4 @@
 const multer = require('multer');
-const sharp = require('sharp');
 const Category = require('../models/categoryModel');
 const factory = require('./handlerFactory');
 const catchAsync = require('../utils/catchAsync');

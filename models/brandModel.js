@@ -1,4 +1,4 @@
-const { Schema, default: mongoose } = require('mongoose');
+const { Schema, default: mongoose, mongo } = require('mongoose');
 
 const brandSchema = new Schema(
   {
@@ -16,6 +16,12 @@ const brandSchema = new Schema(
     image: {
       type: String,
     },
+    categoryTypes: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Category',
+      },
+    ],
   },
   {
     timestamps: true,
