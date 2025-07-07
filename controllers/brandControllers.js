@@ -3,6 +3,8 @@ const Brand = require('../models/brandModel');
 const factory = require('./handlerFactory');
 const catchAsync = require('../utils/catchAsync');
 const cloudinary = require('../utils/imageUpload');
+const Category = require('../models/categoryModel');
+const AppError = require('../utils/appError');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -47,3 +49,33 @@ exports.getBrand = factory.getOne(Brand);
 //  route:  DELETE api/v1/brands/id
 //  access  admin
 exports.deleteBrand = factory.deleteOne(Brand);
+
+exports.addCategoryId = catchAsync(async (req, res, next) => {
+  const { categoryId } = req.body;
+  const { brandId } = req.params;
+
+  const category = await Category.findById(categoryId);
+
+  if (!category) return next(new AppError('No category for this id', 400));
+
+  const updatedBrand = await Brand.findByIdAndUpdate(
+    brandId,
+    { $addToSet: { categoryTypes: categoryId } }, // prevents duplicates
+    { new: true },
+  );
+  res.status(200).json(updatedBrand);
+});
+exports.getBrandsByCategory = catchAsync(async (req, res, next) => {
+  const { categoryId } = req.params;
+  console.log(categoryId);
+  const category = await Category.findById(categoryId);
+
+  if (!category) return next(new AppError('No category for this id', 400));
+
+  const brands = await Brand.find({
+    categoryTypes: {
+      $in: categoryId,
+    },
+  });
+  res.status(200).json(brands);
+});

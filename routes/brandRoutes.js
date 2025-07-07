@@ -15,6 +15,8 @@ const {
   deleteBrand,
   uploadBrandImage,
   resizeImage,
+  addCategoryId,
+  getBrandsByCategory,
 } = require('../controllers/brandControllers');
 
 const router = express.Router();
@@ -30,6 +32,15 @@ router
     createBrandValidator,
     createBrand,
   );
+
+router.get('/byCategory/:categoryId', getBrandsByCategory);
+
+router.patch(
+  '/addCategory/:brandId',
+  authControllers.protect,
+  authControllers.restrictTo('admin', 'manager'),
+  addCategoryId,
+);
 
 router
   .route('/:id')
