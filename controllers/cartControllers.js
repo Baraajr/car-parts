@@ -16,8 +16,14 @@ const calculateTotalPrice = (cart) => {
 };
 
 exports.addProductToCart = catchAsync(async (req, res, next) => {
-  const { productId, color } = req.body;
+  const { productId } = req.body;
   const product = await Product.findById(productId);
+
+  if (!product) {
+    return next(new AppError('no product with this id', 400));
+  }
+
+  console.log(product);
   //1) get logged user cart
   let cart = await Cart.findOne({ user: req.user._id });
 
@@ -25,20 +31,20 @@ exports.addProductToCart = catchAsync(async (req, res, next) => {
     //create cart for this user with product
     cart = await Cart.create({
       user: req.user._id,
-      cartItems: [{ product: productId, color, price: product.price }],
+      cartItems: [{ product: productId, price: product.price }],
     });
   } else {
     // console.log('there is cart');
     // get the index of the product to check if it exists
     const productIndex = cart.cartItems.findIndex(
-      (item) => item.product.toString() === productId && item.color === color,
+      (item) => item.product.toString() === productId,
     );
     if (productIndex > -1) {
       //add 1 to the quantity
       cart.cartItems[productIndex].quantity += 1;
     } else {
       //the product doesn't exists
-      cart.cartItems.push({ product: productId, color, price: product.price });
+      cart.cartItems.push({ product: productId, price: product.price });
     }
   }
 
@@ -54,13 +60,25 @@ exports.addProductToCart = catchAsync(async (req, res, next) => {
 });
 
 exports.getLoggedUserCart = catchAsync(async (req, res, next) => {
-  const cart = await Cart.findOne({ user: req.user._id });
-
+  const cart = await Cart.findOne({ user: req.user._id }).populate({
+    path: 'cartItems.product',
+    select: 'imageCover name price _id category',
+    populate: {
+      path: 'category',
+      select: 'name',
+    },
+  });
   if (!cart) {
-    return next(
-      new AppError(`There is no cart for this user id : ${req.user._id}`, 404),
-    );
+    return res.status(200).json({
+      status: 'success',
+      data: [],
+    });
   }
+  // if (!cart) {
+  //   return next(
+  //     new AppError(`There is no cart for this user id : ${req.user._id}`, 404),
+  //   );
+  // }
 
   res.status(200).json({
     status: 'success',
