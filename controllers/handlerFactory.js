@@ -10,9 +10,17 @@ exports.getAll = (model, populateOptions, modelName = '') =>
     if (req.filterObj) filter = req.filterObj;
 
     modelName = modelName || model.modelName;
-    const documentsCounts = await model.countDocuments();
+    const filteredQuery = model.find(filter);
+    const features1 = new ApiFeatures(filteredQuery, req.query)
+      .filter()
+      .search(model.modelName);
+
+    // Apply filters to count the filtered docs
+    const filteredCount = await features1.mongooseQuery
+      .clone()
+      .countDocuments();
     const features = new ApiFeatures(model.find(filter), req.query)
-      .paginate(documentsCounts)
+      .paginate(filteredCount)
       .filter()
       .search(model.modelName)
       .limitFields()
