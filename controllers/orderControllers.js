@@ -186,33 +186,31 @@ const createOrder = async (session) => {
 
 //will work only if the app is deployed
 
-exports.webhookCheckout = (req, res) => {
+exports.webhookCheckout = async (req, res) => {
   const sig = req.headers['stripe-signature'];
-  // console.log('🔍 req.body is buffer?', Buffer.isBuffer(req.body));
-  // console.log('🔑 Signature:', req.headers['stripe-signature']);
-  // console.log('📦 Raw body:', req.body.toString('utf8'));
-
   let event;
 
   try {
-    // 🔐 Signature check — if it fails, it throws and skips all the rest
     event = stripe.webhooks.constructEvent(
       req.body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET,
     );
   } catch (err) {
-    // ❌ You end up here if ANY event type that arrives doesn't match the secret
     console.error('❌ Webhook signature verification failed:', err.message);
     return res.status(400).json({ 'Webhook Error': err.message });
   }
 
-  // ✅ ONLY reached if signature matched the expected event
   console.log('✅ Webhook verified. Type:', event.type);
 
   if (event.type === 'checkout.session.completed') {
     console.log('📦 Handling checkout.session.completed');
-    createOrder(event.data.object);
+
+    try {
+      await createOrder(event.data.object);
+    } catch (err) {
+      console.error('❌ Error while calling createOrder:', err);
+    }
   } else {
     console.log(`ℹ️ Ignored event: ${event.type}`);
   }
