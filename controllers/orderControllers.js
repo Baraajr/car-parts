@@ -122,8 +122,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       },
     ],
     mode: 'payment',
-    success_url: `${req.protocol}://${req.get('host')}/orders`,
-    cancel_url: `${req.protocol}://${req.get('host')}/cart`,
+    success_url: process.env.SUCCESS_URL,
+    cancel_url: process.env.CANCEL_URL,
     customer_email: req.user.email,
     client_reference_id: cart.id,
     metadata: req.body.shippingAddress || {}, // Ensure metadata is set correctly, even if shippingAddress is undefined
