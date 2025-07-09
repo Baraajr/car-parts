@@ -128,10 +128,10 @@ userSchema.pre('save', function (next) {
 }); //this.isNew  means the new document (user)
 
 // respond only with active users
-userSchema.pre(/^find/, function (next) {
-  this.find({ active: true });
-  next();
-});
+// userSchema.pre(/^find/, function (next) {
+//   this.find({ active: true });
+//   next();
+// });
 
 const User = mongoose.model('User', userSchema);
 

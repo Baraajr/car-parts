@@ -86,9 +86,11 @@ exports.updateUserRole = catchAsync(async (req, res, next) => {
 });
 
 exports.getLoggedUserData = catchAsync(async (req, res, next) => {
-  req.params.id = req.user._id;
-  // to use the getUser() middleware fuction
-  next();
+  const user = await User.findOne({ _id: req.user._id, active: true }); // ← await here
+
+  if (!user) return next(new AppError('User not found'));
+
+  res.status(200).json({ status: 'success', data: user });
 });
 
 exports.updateLoggedUserData = catchAsync(async (req, res, next) => {

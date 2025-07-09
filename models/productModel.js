@@ -85,10 +85,14 @@ const productSchema = new mongoose.Schema(
 );
 
 // populate the category field
-// productSchema.pre(/^find/, function (next) {
-//   this.populate({ path: 'category', select: 'name' });
-//   next();
-// });
+productSchema.pre(/^find/, function (next) {
+  this.populate({ path: 'category', select: 'name' });
+  next();
+});
+productSchema.pre(/^find/, function (next) {
+  this.populate({ path: 'brand', select: 'name' });
+  next();
+});
 
 // virtual populate reviews
 productSchema.virtual('reviews', {
