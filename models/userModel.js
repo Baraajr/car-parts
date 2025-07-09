@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
     },
     phone: String,
-    profileImg: { type: String },
+    profileImg: { type: String, default: process.env.USER_DEFAULT_PHOTO },
     password: {
       type: String,
       minlength: [8, 'Password must be at least 8 characters long'],
