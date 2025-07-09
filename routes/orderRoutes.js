@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.use(authControllers.protect);
 
-router.get('/checkout-session/:cartId', orderControllers.getCheckoutSession);
+router.post('/checkout-session/:cartId', orderControllers.getCheckoutSession);
 
 router
   .route('/')
