@@ -135,17 +135,18 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-const createOrder = async (session, req, res) => {
+const createOrder = async (session) => {
   try {
     const cartId = session.client_reference_id;
-    const shippingAddress = session.metadata || {}; // Use an empty object if no shipping address provided
+    const shippingAddress = session.metadata || {};
     const orderPrice = session.amount_total / 100;
 
     const cart = await Cart.findById(cartId);
     const user = await User.findOne({ email: session.customer_email });
 
     if (!cart || !user) {
-      return res.status(400).send('Cart or user not found');
+      console.error('❌ Cart or user not found');
+      return;
     }
 
     const order = await Order.create({
@@ -158,7 +159,6 @@ const createOrder = async (session, req, res) => {
       paymentMethodType: 'card',
     });
 
-    // Update product quantity and sold fields
     if (order) {
       const bulkOptions = cart.cartItems.map((item) => ({
         updateOne: {
@@ -168,35 +168,46 @@ const createOrder = async (session, req, res) => {
       }));
 
       await Product.bulkWrite(bulkOptions);
-
-      // Clear the cart
       await Cart.findByIdAndDelete(cartId);
+      console.log('✅ Order created and cart cleared');
     }
   } catch (error) {
-    return res.status(400).send(error); // Handle this properly in the calling function
+    console.error('❌ Error creating order:', error);
   }
 };
 
 //will work only if the app is deployed
-exports.webhookCheckout = catchAsync(async (req, res) => {
+
+exports.webhookCheckout = (req, res) => {
   const sig = req.headers['stripe-signature'];
+  // console.log('🔍 req.body is buffer?', Buffer.isBuffer(req.body));
+  // console.log('🔑 Signature:', req.headers['stripe-signature']);
+  // console.log('📦 Raw body:', req.body.toString('utf8'));
+
   let event;
 
   try {
+    // 🔐 Signature check — if it fails, it throws and skips all the rest
     event = stripe.webhooks.constructEvent(
       req.body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET,
     );
   } catch (err) {
-    return res.status(400).json({ 'Webhook Error': err.message, event });
+    // ❌ You end up here if ANY event type that arrives doesn't match the secret
+    console.error('❌ Webhook signature verification failed:', err.message);
+    return res.status(400).json({ 'Webhook Error': err.message });
   }
 
-  // Handle the event
+  // ✅ ONLY reached if signature matched the expected event
+  console.log('✅ Webhook verified. Type:', event.type);
+
   if (event.type === 'checkout.session.completed') {
-    await createOrder(event.data.object, req, res);
-    return res.status(200).json({ message: 'Order created successfully' });
+    console.log('📦 Handling checkout.session.completed');
+    createOrder(event.data.object);
+  } else {
+    console.log(`ℹ️ Ignored event: ${event.type}`);
   }
 
-  res.status(200).send('Webhook received');
-});
+  res.status(200).json({ received: true });
+};

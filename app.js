@@ -23,7 +23,7 @@ const app = express();
 //webhook checkout happens after user pay successfully
 app.post(
   '/webhook-checkout',
-  bodyParser.raw({ type: 'application/json' }),
+  express.raw({ type: 'application/json' }),
   webhookCheckout,
 );
 
