@@ -6,6 +6,13 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const sendEmail = require('../utils/sendEmail');
 
+const getCookieOptions = (expireDate) => ({
+  expires: expireDate,
+  httpOnly: true,
+  sameSite: 'none',
+  secure: process.env.NODE_ENV === 'production', // Secure flag for production
+});
+
 const createJWTToken = (id) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
@@ -17,14 +24,11 @@ const createAndSendToken = (user, status, req, res) => {
   // 1) create the token
   const token = createJWTToken(user._id);
 
-  const cookieOptions = {
-    expires: new Date(
+  const cookieOptions = getCookieOptions(
+    new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
-    httpOnly: true,
-    sameSite: 'none',
-    secure: true,
-  };
+  );
 
   //2) save the token to the cookies
   res.cookie('JWT', token, cookieOptions);
@@ -74,11 +78,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.logout = catchAsync(async (req, res, next) => {
   // 1) Clear the cookie by setting its expiration to a date in the past
-  res.cookie('JWT', '', {
-    expires: new Date(Date.now() - 1000), // Expire the cookie immediately
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Secure flag for production
-  });
+  res.cookie('JWT', '', getCookieOptions(new Date(Date.now() - 1000)));
 
   //2) send the result
   res
