@@ -142,7 +142,10 @@ const createOrder = async (session) => {
     const orderPrice = session.amount_total / 100;
 
     const cart = await Cart.findById(cartId);
+    console.log('🛒 Cart found:', !!cart, 'Cart ID:', cartId);
+
     const user = await User.findOne({ email: session.customer_email });
+    console.log('👤 User found:', !!user);
 
     if (!cart || !user) {
       console.error('❌ Cart or user not found');
@@ -159,6 +162,8 @@ const createOrder = async (session) => {
       paymentMethodType: 'card',
     });
 
+    console.log('✅ Order created:', order._id);
+
     if (order) {
       const bulkOptions = cart.cartItems.map((item) => ({
         updateOne: {
@@ -168,8 +173,11 @@ const createOrder = async (session) => {
       }));
 
       await Product.bulkWrite(bulkOptions);
-      await Cart.findByIdAndDelete(cartId);
-      console.log('✅ Order created and cart cleared');
+      const deleteResult = await Cart.findByIdAndDelete(cartId);
+      console.log(
+        '🗑️ Cart delete result:',
+        deleteResult ? 'Deleted' : 'Not found',
+      );
     }
   } catch (error) {
     console.error('❌ Error creating order:', error);
