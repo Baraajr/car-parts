@@ -10,7 +10,7 @@ const getCookieOptions = (expireDate) => ({
   expires: expireDate,
   httpOnly: true,
   sameSite: 'none',
-  secure: process.env.NODE_ENV === 'production', // Secure flag for production
+  secure: true, // Secure flag for production
 });
 
 const createJWTToken = (id) => {
