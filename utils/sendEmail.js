@@ -11,7 +11,7 @@ const sendEmail = async (options) => {
   });
 
   const emailOptions = {
-    from: `E-shop App <${process.env.EMAIL_FROM}>`,
+    from: `Car-Parts App <${process.env.EMAIL_FROM}>`,
     to: options.to, // Recipient email address
     subject: options.subject, // Email subject
     text: options.text, // Plain text version of the message

@@ -11,6 +11,11 @@ const {
 const router = express.Router();
 
 router.post('/signup', signupValidator, authControllers.signup);
+router.get('/verify-email', authControllers.verifyEmail);
+router.post(
+  '/resend-verification-email',
+  authControllers.resendVerificationEmail,
+);
 
 router.post('/login', loginValidator, authControllers.login);
 

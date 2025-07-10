@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
     phone: String,
     profileImg: { type: String, default: process.env.USER_DEFAULT_PHOTO },
     password: {
@@ -39,6 +43,7 @@ const userSchema = new mongoose.Schema(
     passwordResetCode: String,
     passwordResetExpires: Date,
     passwordResetVerified: Boolean,
+    verificationToken: String,
     role: {
       type: String,
       enum: ['user', 'manager', 'admin'],
@@ -110,6 +115,24 @@ userSchema.methods.createPasswordResetCode = function () {
   this.passwordResetVerified = false;
 
   return resetCode;
+};
+
+userSchema.methods.createEmailVerificationCode = function () {
+  //create random code
+  const verificationCode = Math.floor(
+    100000 + Math.random() * 900000,
+  ).toString();
+
+  //hash the code
+  const hashedCode = crypto
+    .createHash('sha256')
+    .update(verificationCode)
+    .digest('hex');
+
+  // save relative data to db
+  this.emailVerification = hashedCode;
+
+  return hashedCode;
 };
 
 // Hashing user password

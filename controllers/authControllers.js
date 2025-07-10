@@ -55,8 +55,131 @@ exports.signup = catchAsync(async (req, res, next) => {
     password,
   });
 
-  //log the user in by setting the cookies and send the token back
-  createAndSendToken(user, 200, req, res);
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    expiresIn: '1d',
+  });
+
+  user.verificationToken = token;
+  await user.save();
+
+  const url = `${process.env.FRONT_URL}/verify-email?token=${token}`;
+  const textMessage = ` Verify your email, Click here to verify: ${url}`;
+  const htmlMessage = `
+  <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+    <div style="max-width: 600px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+      <h2 style="color: #333;">Hi ${user.name},</h2>
+      <p style="font-size: 16px; color: #555;">
+        Please verify your email address by clicking the button below:
+      </p>
+      <a href="${url}" 
+         style="display: inline-block; margin: 20px 0; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+        Verify Email
+      </a>
+      <p style="font-size: 14px; color: #555;">
+        Or copy and paste this link into your browser:
+      </p>
+      <p style="font-size: 14px; color: #007bff;">${url}</p>
+      <p style="font-size: 12px; color: #999;">
+        This link is valid for 1 day.
+      </p>
+    </div>
+  </div>
+`;
+
+  await sendEmail({
+    to: user.email,
+    subject: 'Password Reset Code (Valid for 10 min)',
+    text: textMessage, // Plain text version
+    html: htmlMessage, // HTML version
+  });
+
+  res.status(201).json({
+    status: 'success',
+    message: 'User created. Please check your email to verify.',
+  });
+});
+
+exports.resendVerificationEmail = catchAsync(async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) return res.status(400).json({ message: 'Email is required.' });
+
+  const user = await User.findOne({ email });
+
+  if (!user) return res.status(404).json({ message: 'User not found.' });
+  if (user.verified)
+    return res.status(400).json({ message: 'User already verified.' });
+
+  // generate new token
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    expiresIn: '1d',
+  });
+
+  user.verificationToken = token;
+  await user.save();
+
+  const verificationUrl = `${process.env.FRONT_URL}/verify-email?token=${token}`;
+  const textMessage = ` Verify your email, Click here to verify: ${verificationUrl}`;
+  const htmlMessage = `
+  <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+    <div style="max-width: 600px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+      <h2 style="color: #333;">Hi ${user.name},</h2>
+      <p style="font-size: 16px; color: #555;">
+        Please verify your email address by clicking the button below:
+      </p>
+      <a href="${verificationUrl}" 
+         style="display: inline-block; margin: 20px 0; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+        Verify Email
+      </a>
+      <p style="font-size: 14px; color: #555;">
+        Or copy and paste this link into your browser:
+      </p>
+      <p style="font-size: 14px; color: #007bff;">${verificationUrl}</p>
+      <p style="font-size: 12px; color: #999;">
+        This link is valid for 1 day.
+      </p>
+    </div>
+  </div>
+`;
+
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: 'Password Reset Code (Valid for 10 min)',
+      text: textMessage, // Plain text version
+      html: htmlMessage, // HTML version
+    });
+    res.status(200).json({ message: 'Verification email sent.' });
+  } catch (err) {
+    console.error('Error sending email:', err);
+    res
+      .status(500)
+      .json({ message: 'Failed to send email. Please try again later.' });
+  }
+});
+exports.verifyEmail = catchAsync(async (req, res) => {
+  const { token } = req.query;
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(payload.userId);
+
+    if (!user) return res.status(400).send('Invalid token');
+
+    if (user.verified) return res.status(200).send('Already verified');
+
+    user.verified = true;
+    user.verificationToken = undefined;
+    await user.save();
+
+    res
+      .status(200)
+      .json({ status: 'success', message: 'Email verified successfully' });
+  } catch (err) {
+    res
+      .status(400)
+      .json({ status: 'success', message: 'Invalid or expired token' });
+  }
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -66,6 +189,9 @@ exports.login = catchAsync(async (req, res, next) => {
 
   //1) Find user by email or username
   const user = await User.findOne({ email }).select('+password');
+
+  if (!user.verified)
+    return next(new AppError('Please Verify your email first'));
 
   console.log(user);
   if (user.active === false) {
@@ -165,10 +291,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const resetCode = user.createPasswordResetCode();
   await user.save({ validateBeforeSave: false });
 
-  const textMessage = `Hi ${user.name},\nWe received a request to reset the password on your E-shop Account.\nUse this code to verify it's you: ${resetCode}\nThis code is valid for 10 minutes.`;
+  const textMessage = `Hi ${user.name},\nWe received a request to reset the password on your Car-Parts Account.\nUse this code to verify it's you: ${resetCode}\nThis code is valid for 10 minutes.`;
   const htmlMessage = `
       <p>Hi ${user.name},</p>
-      <p>We received a request to reset the password on your E-shop Account.</p>
+      <p>We received a request to reset the password on your Car-Parts Account.</p>
       <p>Use this code to verify it's you:</p>
       <h3>${resetCode}</h3>
       <p>This code is valid for 10 minutes.</p>
@@ -216,6 +342,7 @@ exports.verifyPasswordResetCode = catchAsync(async (req, res, next) => {
   //2) Find the user with the hashed reset code and check expiration
   const user = await User.findOne({
     email: req.body.email,
+    active: true,
     passwordResetCode: hashedResetCode,
     passwordResetExpires: { $gt: Date.now() },
   });
