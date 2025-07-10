@@ -187,8 +187,13 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // we will check the request body in the validation layer
 
-  //1) Find user by email or username
+  //1) Find user by email
   const user = await User.findOne({ email }).select('+password');
+
+  //2) Check if user exists and password is correct
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError('Incorrect email or password', 401));
+  }
 
   if (!user.verified)
     return next(new AppError('Please Verify your email first'));
@@ -198,10 +203,6 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(
       new AppError('This account has been deactivated. Contact support.', 403),
     );
-  }
-  //2) Check if user exists and password is correct
-  if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError('Incorrect email or password', 401));
   }
 
   //3) If everything is okay, send the token to the client and set the cookies

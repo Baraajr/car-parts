@@ -51,7 +51,13 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
 });
 
 // only admin will use these
-exports.getAllUsers = factory.getAll(User, '', 'users');
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find({ _id: { $ne: req.user._id } });
+  res.status(200).json({
+    status: 'success',
+    data: users,
+  });
+});
 exports.createUser = factory.createOne(User);
 exports.getUser = factory.getOne(User);
 
@@ -70,6 +76,36 @@ exports.updateUserRole = catchAsync(async (req, res, next) => {
   const updatedUser = await User.findByIdAndUpdate(
     id,
     { role },
+    { new: true, runValidators: true },
+  );
+
+  if (!updatedUser) {
+    return next(new AppError('User not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user: updatedUser,
+    },
+  });
+});
+
+exports.activateAccount = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const { active } = req.body;
+
+  const user = await User.findById(id);
+
+  if (user.active)
+    return next(
+      new AppError('User Account is already active and u cannot deactivate it'),
+    );
+
+  // Update the user's role
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    { active: true },
     { new: true, runValidators: true },
   );
 

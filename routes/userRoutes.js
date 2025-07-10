@@ -33,7 +33,8 @@ router.delete('/deleteMe', userControllers.deleteLoggedUserData);
 router.use(authControllers.restrictTo('admin', 'manager'));
 
 // update the role of the user by the admin
-router.patch('/updateRole/:id', userControllers.updateUserRole);
+router.patch('/:id/updateRole', userControllers.updateUserRole);
+router.patch('/:id/activate', userControllers.activateAccount);
 
 /////////////////////////////      MAIN CRUDS ROUTES      /////////////////////////////
 
