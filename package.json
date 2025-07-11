@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./server",
     "dev": "nodemon server",
-    "prod": "set NODE_ENV=production&& node --legacy-watch ./server",
+    "prod": "set NODE_ENV=production&& node ./server",
     "test": "jest --watchAll"
   },
   "keywords": [],
